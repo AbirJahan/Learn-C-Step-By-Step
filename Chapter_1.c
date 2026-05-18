@@ -868,4 +868,69 @@ char word[] = {'C', 'A', 'T'};
 //
 
 
-//     Think of it as " END OF WORD "
+
+//     Think of it as " END OF WORD " or a full stop just like we use in English Sentences. 
+
+//     To us it looks like '\0' but secretly it's just 0, a number. But here 0 is in character form. 
+
+
+
+
+//
+//*     Part 8: Why Does C Need It?
+//
+
+
+
+
+//    Let's again go back to CAT. 
+
+char word[] = "CAT";
+
+//    WHen we are going to do this: 
+
+printf("%s", word);
+
+//     We know that it is going to print CAT but computer is going think - "Okay, But how many words?"
+
+// We didn't specify him how many words so printf() function is going to start walking. It will follow the steps below: 
+
+//     Step 1:    Reads 'C' -> prints it
+//     Step 2:    Reads 'A' -> prints it
+//     Step 3:    Reads 'T' -> prints it
+//!    Step 4:    Reads '\0' -> Computer sees this understands it's the end of the word, it stops printing. 
+
+//!    Output -> CAT
+
+
+
+
+
+//
+//*     Part 9: Why Missing '\0' Is Dangerous
+//
+
+
+
+//     Let's imagine a memory without '\0'
+
+//     +-----+-----+-----+------+------+-------+
+//     | 'C' | 'A' | 'T' |  93  |  12  |   @   |
+//     +-----+-----+-----+------+------+-------+
+
+//Note:    Now we printf("%s", word);
+
+// Our computer starts reading in this order: 
+
+//      C
+//      A
+//      T
+//      93
+//      12
+//      @
+
+//     So the outcome becomes a total garbage and in worst case scenario it crashes. As it never found '\0' .
+
+//     So let's see a mental model: 
+
+//Note:     For single character: 
