@@ -824,7 +824,7 @@ scores[1] = 100;
 
 
 //
-//*     Part 4: Changing Values
+//*     Part 5: Okay… So What Is a String?
 //
 
 
@@ -931,6 +931,206 @@ printf("%s", word);
 
 //     So the outcome becomes a total garbage and in worst case scenario it crashes. As it never found '\0' .
 
+
 //     So let's see a mental model: 
 
 //Note:     For single character: 
+
+            char letter = 'A';
+
+//Note:     Number array:
+
+            int numbers[5] = {1, 2, 3, 4, 5};
+//Note:     If we want to print the number array we need to use %d format specifier.
+            printf("%d", numbers[2]); // It will print 3.
+
+//Note:     String array/Word/Character Array:
+
+            char word[] = "CAT"; // It will store CAT + '\0' in memory.
+//Note:     So if we want to print the string we need to use %s format specifier.
+
+            printf("%s", word); // It will print CAT. 
+
+
+//Note:      Even though computer saves the "CAT" as numbers secretly we can not write:
+
+        int word[] = "CAT";
+
+//      Because "CAT" is string and it's a sequence of characters, so we need to use char data type for string. Strings in C are char arrays meaning: 'C' 'A' 'T' '\0'. 
+
+//      But let's say we forcefully use :
+        
+        int word[] = {'C', 'A', 'T'};
+
+//      As characters are secretly integers memory becomes: 
+
+        67 65 84
+
+//      But notice that there is no '\0' at the end. So it will print some garbage value after CAT because it's reading from the next memory location. Another thing, We won't be able to do this:   printf("%s", word); because %s expects a char array ending with '\0'. It will give error.
+
+
+
+
+//
+//*     Part 10: 2D Array = Building With Floors. Deeper concepts. 
+//
+
+
+
+//       Instead of one hallway now we have a building where there are multiple floors, Each floor contains rooms. That's a 2D array. Example: 
+
+        int classroom[3][4];
+
+//      This is a 2D array with 3 rows ( Or 3 floors in our building example) and 4 columns (Or 4 rooms on each floor). It can hold 12 integers. We can access it. Let's see what it looks like in our memory
+
+//     Floor 0 → [ ][ ][ ][ ]
+//     Floor 1 → [ ][ ][ ][ ]
+//     Floor 2 → [ ][ ][ ][ ]
+
+//     Or in a more visual way:
+
+
+//      +----+----+----+----+
+//      |    |    |    |    |
+//      +----+----+----+----+
+//      |    |    |    |    |
+//      +----+----+----+----+
+//      |    |    |    |    |
+//      +----+----+----+----+
+
+
+//!     Now let's put some data in it: 
+
+        int classroom[3][4] =
+            {
+                {10, 20, 30, 40},
+                {50, 60, 70, 80},
+                {90, 100, 110, 120}
+            };
+
+
+//      The visual way: 
+
+//             Column
+//             0     1    2    3
+//            +----+----+----+----+
+//      Row 0 | 10 | 20 | 30 | 40 |
+//            +----+----+----+----+
+//      Row 1 | 50 | 60 | 70 | 80 |
+//            +----+----+----+----+
+//      Row 2 | 90 |100 |110 |120 |
+//            +----+----+----+----+
+
+//      So how does the indexing work ?
+
+        classroom[1][2]
+
+        //      This will return 70, because it's in row 1 and column 2. Remember that arrays are zero-indexed!
+
+//      in a normal or one dimensional array, Many of you might think if we can access two elements at once. But sadly nope. people[1,3] won't work. 
+
+//?  Exercise 6: What is the formal entry point of every C program?   
+
+
+
+
+
+// *****
+
+//!    🛑 6. Functions & Arguments (Moving down Page 2)
+
+// *****
+
+
+
+
+//
+//     Part 1: First - What Is A Function?
+//
+
+
+
+//     So function is basically a helper machine where you give it a input, it performs a task, then returns an output. Pretty simple right ? The best part is it can be called multiple times throughout your program.
+
+//      It looks like this :
+
+        printf("Hello World!"); // This is a function call. It calls the printf function and gives it the string "Hello World!" as input. Then it performs a task (printing the string to the console) and returns an output (the number of characters printed).
+
+
+
+
+//
+//     Part 2: Passing Data Into Functions
+//
+
+
+//      suppose my age is 90 ( I am just 19 bro ) so : 
+
+          int age = 90;
+//      so it creates a space for itself in the memory which looks like this : 
+
+//      +----+
+//      | 90 |
+//      +----+
+//        age
+
+//      Now we pass it in a function: 
+
+        show(age);
+
+//Note:     Now the fun part: Our function does not receive the actual int age = 90; rather it recieves a copy of it. So any changes you make inside the function do not affect the original variable outside the function.
+
+
+
+//
+//      Part 3: The Photocopy Analogy
+//
+
+ 
+//     Let's Imagine I have a paper which says: 
+
+       int age = 90
+//     I call: 
+
+       show(age);
+
+//     The function does not take my paper but it takes a copy of the paper. So if I change anything on this copy, it will not affect the original paper.
+
+
+
+//      So let's do a proof check : 
+
+       #include <stdio.h>
+
+        void update(int x)
+        {
+            x = 99;
+        }
+
+        int main()
+        {
+            int age = 90;
+
+            update(age);
+
+            printf("%d", age);
+        }
+
+
+
+//Note:      so what the heck happens here ? let's see:
+
+//       Step 1: we write #include <stdio.h> - This line includes the standard input-output library, which is necessary for using functions like `printf`.
+
+//       Step 2: We define a function called update that takes an integer parameter x. Inside this function, we assign x a value of 99. However, this change only affects the local copy of x, not the original variable passed from main(). In other words, any modifications made inside this function are completely isolated and will not affect the outside world unless the value is explicitly returned or printed.
+
+//      Step 3: In the main function, we declare an integer variable named age and initialize it to 90. We then call the update function, passing age as its argument. This sends the value of age into the function—but as a crucial reminder, the original variable itself isn't passed. Instead, the computer passes a copy of its value (90) to the function.
+
+//      Step 4: Because we defined the parameter as int x, the value of age is copied into it, meaning the local x initially becomes 90. The computer keeps this in mind as it enters the function. However, it then encounters x = 99; and overwrites the local value to 99.
+// Crucially, the original value of age in main() remains 90 because C uses pass-by-value. Furthermore, since the update() function has no direct connection to the age variable in main(), even returning a value from update() wouldn't automatically change age unless we explicitly assigned that returned value back to it.
+
+//      Step 5: Finally, we print the value of `age` using `printf`. As expected, it will output 90. 
+
+
+
+ 
